@@ -16,6 +16,9 @@ RUN apt update && \
 	erlang-nox \
 	rabbitmq-server
 
+# Copy the file to the rabbit folder for cluster config
+COPY .erlang.cookie /var/lib/rabbitmq/.erlang.cookie
+
 # Ports: 
 # 4369 used by rabbit nodes and cli tools
 # 5672 default port of rabbit to listen
