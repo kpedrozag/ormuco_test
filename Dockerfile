@@ -24,6 +24,4 @@ RUN apt update && \
 
 EXPOSE 4369 5672 15672 25672 35672
 
-COPY start_rabbit.sh start_rabbit.sh
-
-CMD ["/bin/bash", "start_rabbit.sh"]
+CMD ["rabbitmq-server"]
