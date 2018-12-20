@@ -19,7 +19,7 @@ RUN apt update && \
 	rabbitmq-server
 
 # Copy the file to the rabbit folder for cluster config
-COPY --chown=rabbitmq:rabbitmq .erlang.cookie /var/lib/rabbitmq/.erlang.cookie
+# COPY --chown=rabbitmq:rabbitmq .erlang.cookie /var/lib/rabbitmq/.erlang.cookie
 
 # Ports: 
 # 4369 used by rabbit nodes and cli tools
