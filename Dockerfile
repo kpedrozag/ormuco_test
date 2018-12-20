@@ -3,7 +3,9 @@ FROM ubuntu:16.04
 RUN apt update && \
 	apt -y install \
 	wget \
-	apt-transport-https
+	apt-transport-https \
+	iputils-ping \
+	net-tools
 
 RUN wget -O - "https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc" | apt-key add - 
 
@@ -17,7 +19,7 @@ RUN apt update && \
 	rabbitmq-server
 
 # Copy the file to the rabbit folder for cluster config
-COPY .erlang.cookie /var/lib/rabbitmq/.erlang.cookie
+COPY --chown=rabbitmq:rabbitmq .erlang.cookie /var/lib/rabbitmq/.erlang.cookie
 
 # Ports: 
 # 4369 used by rabbit nodes and cli tools
