@@ -21,10 +21,10 @@ COPY .erlang.cookie /var/lib/rabbitmq/.erlang.cookie
 
 # Ports: 
 # 4369 used by rabbit nodes and cli tools
-# 5672 default port of rabbit to listen
+# 5672, 5671 default port of rabbit to listen
 # 15672 used for api clients and management
 # 25672, 35672 port for erlang and cli tools communication
 
-EXPOSE 4369 5672 15672 25672
+EXPOSE 4369 5671 5672 25672 35672 35682
 
 CMD ["rabbitmq-server"]
