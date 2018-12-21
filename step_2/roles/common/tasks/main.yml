@@ -6,6 +6,14 @@
       update_cache: yes
     with_items: "{{ dependencies }}"
 
+  - name: Install Docker Python library
+    pip:
+      name: "{{ item }}"
+      state: latest
+    with_items:
+      - docker
+      - setuptools
+
   - name: Add the official key of Docker
     apt_key:
       url: https://download.docker.com/linux/ubuntu/gpg
@@ -20,8 +28,3 @@
     apt:
       name: docker-ce
       update_cache: yes
-
-  - name: Install Docker Python library
-    pip:
-      name: docker
-      state: latest
