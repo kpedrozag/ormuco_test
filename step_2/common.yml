@@ -1,0 +1,7 @@
+---
+  - name: Docker Installation on all nodes
+    remote_user: ubuntu
+    sudo: yes
+    hosts: master, slaves
+    roles:
+      - common

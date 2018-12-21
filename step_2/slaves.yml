@@ -1,0 +1,9 @@
+---
+  - name: Launch the slave nodes (rabbit node 2 and 3)
+    remote_user: ubuntu
+    become: yes
+    hosts: slaves
+    vars_files:
+      - common_vars.yml
+    roles:
+      - slaves

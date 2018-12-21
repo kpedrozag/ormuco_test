@@ -1,0 +1,146 @@
+INSTANCIA 1: 
+ssh ubuntu@52.90.198.168
+52.90.198.168
+
+INSTANCIA 2: 
+ssh ubuntu@52.91.205.231
+52.91.205.231
+
+INSTANCIA 3:
+ssh ubuntu@184.73.84.255
+184.73.84.255
+
+---------------
+TODAS LAS INSTANCIAS
+
+sudo apt update
+
+sudo apt -y install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+
+sudo apt update
+
+sudo apt -y install docker-ce
+
+# sudo groupadd docker
+
+sudo usermod -aG docker $USER
+
+exit
+
+RECONECTARSE
+
+git clone https://github.com/kpedrozag/ormuco_test.git
+
+docker build -t myrabbit:1 ./ormuco_test/step_1/
+
+----------------
+
+INSTANCIA 1
+docker run -d \
+    --name rabbit \
+    --hostname rabbit_node1 \
+    -e "RABBITMQ_NODENAME=rabbit1" \
+    -p 4369:4369 \
+    -p 5672:5672 \
+    -p 25672:25672 \
+    -p 35672:35672 \
+    myrabbit:1
+
+docker exec rabbit \
+  /bin/bash -c "echo MYOWNCOOKIEFORRABBIT \
+  > /var/lib/rabbitmq/.erlang.cookie" && \
+  docker exec rabbit \
+  cat /var/lib/rabbitmq/.erlang.cookie
+
+docker restart rabbit
+
+exit
+
+-----------------
+
+INSTANCIA 2
+docker run -d \
+    --name rabbit \
+    --hostname rabbit_node2 \
+    -e "RABBITMQ_NODENAME=rabbit2" \
+    -p 4369:4369 \
+    -p 5672:5672 \
+    -p 25672:25672 \
+    -p 35672:35672 \
+    myrabbit:1
+
+docker exec rabbit \
+  /bin/bash -c "echo MYOWNCOOKIEFORRABBIT \
+  > /var/lib/rabbitmq/.erlang.cookie" && \
+  docker exec rabbit \
+  cat /var/lib/rabbitmq/.erlang.cookie
+
+docker restart rabbit
+
+docker exec rabbit \
+  /bin/bash -c "echo 52.90.198.168 rabbit_node1 \
+  >> /etc/hosts" && \
+  docker exec rabbit \
+  cat /etc/hosts
+
+docker exec rabbit rabbitmqctl stop_app
+
+docker exec rabbit rabbitmqctl join_cluster rabbit1@rabbit_node1
+
+docker exec rabbit rabbitmqctl start_app
+
+docker exec rabbit rabbitmqctl cluster_status
+
+--------------------------
+
+INSTANCIA 3
+docker run -d \
+    --name rabbit \
+    --hostname rabbit_node3 \
+    -e "RABBITMQ_NODENAME=rabbit3" \
+    -p 4369:4369 \
+    -p 5672:5672 \
+    -p 25672:25672 \
+    -p 35672:35672 \
+    myrabbit:1
+
+docker exec rabbit \
+  /bin/bash -c "echo MYOWNCOOKIEFORRABBIT \
+  > /var/lib/rabbitmq/.erlang.cookie" && \
+  docker exec rabbit \
+  cat /var/lib/rabbitmq/.erlang.cookie
+
+docker restart rabbit
+
+docker exec rabbit \
+  /bin/bash -c "echo 52.90.198.168 rabbit_node1 \
+  >> /etc/hosts" && \
+  docker exec rabbit \
+  cat /etc/hosts
+
+docker exec rabbit \
+  /bin/bash -c "echo 52.91.205.231 rabbit_node2 \
+  >> /etc/hosts" && \
+  docker exec rabbit \
+  cat /etc/hosts
+
+docker exec rabbit rabbitmqctl stop_app
+
+docker exec rabbit rabbitmqctl join_cluster rabbit1@rabbit_node1
+
+docker exec rabbit rabbitmqctl start_app
+
+docker exec rabbit rabbitmqctl cluster_status
+
+--------------------------

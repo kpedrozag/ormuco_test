@@ -1,0 +1,23 @@
+path_files: ./myfiles
+
+container_name: rabbit
+
+hostnames:
+  hn_1: rabbit_node1
+  hn_2: rabbit_node2
+  hn_3: rabbit_node3
+
+nodenames:
+  node1: rabbit1
+  node2: rabbit2
+  node3: rabbit3
+
+image_name: myrabbit
+image_tag: 1
+
+erlang_cookie: MYOWNCOOKIEFORRABBIT
+
+ip_nodes:
+  ip1: 
+  ip2: 
+  ip3: 

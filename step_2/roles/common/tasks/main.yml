@@ -1,0 +1,27 @@
+---
+  - name: Update and install dependences of Docker
+    apt:
+      name: "{{ item }}"
+      state: present
+      update_cache: yes
+    with_items: "{{ dependencies }}"
+
+  - name: Add the official key of Docker
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+
+  - name: Add the repository of Docker
+    apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+      state: present
+
+  - name: Update and install Docker
+    apt:
+      name: docker-ce
+      update_cache: yes
+
+  - name: Install Docker Python library
+      pip:
+        name: docker
+        state: latest

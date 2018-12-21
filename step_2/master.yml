@@ -1,0 +1,9 @@
+---
+  - name: Launch the master node (rabbit node 1)
+    remote_user: ubuntu
+    become: yes
+    hosts: master
+    vars_files:
+      - common_vars.yml
+    roles:
+      - master

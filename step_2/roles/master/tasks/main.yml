@@ -1,0 +1,45 @@
+---
+  - name: Create a folder for Dockerfile
+    command: mkdir {{ path_files }}
+
+  - name: Copy Dockerfile to remote host
+    copy:
+      src: 'Dockerfile'
+      dest: '{{ path_files }}/Dockerfile'
+      owner: ubuntu
+      group: ubuntu
+      mode: 0644
+
+  - name: Build a image from Ubuntu installing RabbitMQ
+    docker_image:
+      path: "{{ path_files }}"
+      name: "{{ image_name }}"
+      tag: "{{ image_tag }}"
+
+  - name: Create and start node 1
+    docker_container:
+      name: "{{ container_name }}"
+      hostname: "{{ hostnames.hn_1 }}"
+      image: "{{ image_name }}:{{ image_tag }}"
+      state: started
+      ports:
+        - "4369:4369"
+        - "5672:5672"
+        - "25672:25672"
+        - "35672:25672"
+      env:
+        RABBITMQ_NODENAME: "{{ nodenames.node1 }}"
+      etc_hosts: >
+        {
+          "{{ hostnames.hn_2 }}": "{{ ip_nodes.ip2 }}",
+          "{{ hostnames.hn_3 }}": "{{ ip_nodes.ip3 }}",
+        }
+
+    - name: Add my own Erlang Cookie to node 1
+      command: docker exec "{{ container_name }}" /bin/bash -c "echo"'{{ erlang_cookie }}'"> /var/lib/rabbitmq/.erlang.cookie"
+    
+    - name: Restart container
+      docker_container:
+        name: "{{ container_name }}"
+        state: started
+        restart: yes
