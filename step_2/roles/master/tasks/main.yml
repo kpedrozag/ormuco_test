@@ -35,11 +35,11 @@
           "{{ hostnames.hn_3 }}": "{{ ip_nodes.ip3 }}"
         }
 
-    - name: Add my own Erlang Cookie to node 1
-      command: docker exec "{{ container_name }}" /bin/bash -c "echo"'{{ erlang_cookie }}'"> /var/lib/rabbitmq/.erlang.cookie"
-    
-    - name: Restart container
-      docker_container:
-        name: "{{ container_name }}"
-        state: started
-        restart: yes
+  - name: Add my own Erlang Cookie to node 1
+    command: docker exec "{{ container_name }}" /bin/bash -c "echo"'{{ erlang_cookie }}'"> /var/lib/rabbitmq/.erlang.cookie"
+  
+  - name: Restart container
+    docker_container:
+      name: "{{ container_name }}"
+      state: started
+      restart: yes

@@ -35,20 +35,20 @@
           "{{ hostnames.hn_3 }}": "{{ ip_nodes.ip3 }}"
         }
 
-    - name: Add my own Erlang Cookie to node 2
-      command: docker exec "{{ container_name }}" /bin/bash -c "echo"'{{ erlang_cookie }}'"> /var/lib/rabbitmq/.erlang.cookie"
-    
-    - name: Restart container
-      docker_container:
-        name: "{{ container_name }}"
-        state: started
-        restart: yes
+  - name: Add my own Erlang Cookie to node 2
+    command: docker exec "{{ container_name }}" /bin/bash -c "echo"'{{ erlang_cookie }}'"> /var/lib/rabbitmq/.erlang.cookie"
+  
+  - name: Restart container
+    docker_container:
+      name: "{{ container_name }}"
+      state: started
+      restart: yes
 
-    - name: Stop RabbitMQ app
-      command: docker exec "{{ container_name }}" /bin/bash -c "rabbitmqctl stop_app"
+  - name: Stop RabbitMQ app
+    command: docker exec "{{ container_name }}" /bin/bash -c "rabbitmqctl stop_app"
 
-    - name: Join to cluster of node 1
-      command: docker exec "{{ container_name }}" /bin/bash -c "rabbitmqctl join_cluster "'{{ nodenames.node1 }}'"@"'{{ hostnames.hn_1 }}'
+  - name: Join to cluster of node 1
+    command: docker exec "{{ container_name }}" /bin/bash -c "rabbitmqctl join_cluster "'{{ nodenames.node1 }}'"@"'{{ hostnames.hn_1 }}'
 
-    - name: Start RabbitMQ app
-      command: docker exec "{{ container_name }}" /bin/bash -c "rabbitmqctl start_app"
+  - name: Start RabbitMQ app
+    command: docker exec "{{ container_name }}" /bin/bash -c "rabbitmqctl start_app"
