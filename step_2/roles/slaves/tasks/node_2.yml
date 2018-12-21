@@ -36,7 +36,7 @@
         }
 
   - name: Add my own Erlang Cookie to node 2
-    command: docker exec "{{ container_name }}" /bin/bash -c "echo"'{{ erlang_cookie }}'"> /var/lib/rabbitmq/.erlang.cookie"
+    command: docker exec "{{ container_name }}" /bin/bash -c "echo "'{{ erlang_cookie }}'" > /var/lib/rabbitmq/.erlang.cookie"
   
   - name: Restart container
     docker_container:
