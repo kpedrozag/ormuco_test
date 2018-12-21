@@ -4,5 +4,5 @@ dependencies:
   - ca-certificates
   - curl
   - software-properties-common
-  - python3-pip
+  - python-pip
   - python-setuptools
