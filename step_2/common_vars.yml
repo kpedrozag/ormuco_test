@@ -18,6 +18,6 @@ image_tag: 1
 erlang_cookie: MYOWNCOOKIEFORRABBIT
 
 ip_nodes:
-  ip1: 
-  ip2: 
-  ip3: 
+  ip1: 18.232.114.83
+  ip2: 52.90.198.168
+  ip3: 54.167.250.86
