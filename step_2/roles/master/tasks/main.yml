@@ -32,7 +32,7 @@
       etc_hosts: >
         {
           "{{ hostnames.hn_2 }}": "{{ ip_nodes.ip2 }}",
-          "{{ hostnames.hn_3 }}": "{{ ip_nodes.ip3 }}",
+          "{{ hostnames.hn_3 }}": "{{ ip_nodes.ip3 }}"
         }
 
     - name: Add my own Erlang Cookie to node 1
