@@ -22,6 +22,6 @@
       update_cache: yes
 
   - name: Install Docker Python library
-      pip:
-        name: docker
-        state: latest
+    pip:
+      name: docker
+      state: latest
